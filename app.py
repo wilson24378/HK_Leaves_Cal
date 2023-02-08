@@ -6,7 +6,6 @@ Created on Sat Apr 16 09:44:25 2022
 """
 
 import streamlit as st
-import pyautogui
 
 ###### for calculation of annual leave #####
 import datetime
@@ -137,4 +136,3 @@ if st.button('Save to Excel'):
 
     df2 = pd.DataFrame(data, index=[0])
     df2.to_csv(save_file, mode='a', index=False, header=False)
-    pyautogui.alert('已儲存')
