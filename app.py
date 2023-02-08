@@ -12,14 +12,6 @@ import datetime
 from datetime import date, timedelta
 import pytz
 
-import os.path
-from os import path
-
-import pandas as pd
-
-
-save_file = 'wilson_leave.csv'
-total_days_of_leave = 10
 
 ##### Define special dates #####
 holiday = [
@@ -69,23 +61,9 @@ html_temp = f"""
 st.markdown(html_temp,unsafe_allow_html=True)
 st.markdown("")
 st.markdown("")
+st.markdown("")
 
 ##### 內容 #####
-if path.exists(save_file):
-    df = pd.read_csv(save_file)
-    leave_used = df['no_of_dates'].sum()
-    remaining_day_of_leave = total_days_of_leave - leave_used
-    column_a1, column_a2, column_a3 = st.columns([1,1,1])
-    column_a1.write(f'年假總數: {total_days_of_leave}日 ')
-    column_a2.write(f'已使用假期日數: {leave_used}日')
-    column_a3.write(f'剩餘日數: {remaining_day_of_leave}日')
-else:
-    st.write('沒有找到到請假記錄')
-
-st.markdown("")
-st.markdown("")
-
-
 header = f'<p style="font-family:sans-serif; color:#00FF00; font-size: 22px;">假期計算'
 st.markdown(header, unsafe_allow_html=True)
 
@@ -122,17 +100,4 @@ st.subheader(f'假期由 {start_date} 至 {end_date} ------ 總日數: {len(date
 if holiday_dates:
     st.subheader(f'包括{len(holiday_dates)}日公眾假期 / 星期六或日: \n{holiday_dates}')
 st.subheader(f'實際需請假日期為: {actual_dates_take_leave}日')
-      
-st.write('')
 
-if st.button('Save to Excel'):
-    data = {
-            'record_date':date.today(),
-            'date_from':start_date,
-            'date_to':end_date,
-            'no_of_dates':actual_dates_take_leave,
-            
-             }
-
-    df2 = pd.DataFrame(data, index=[0])
-    df2.to_csv(save_file, mode='a', index=False, header=False)
