@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Created on Sat Apr 16 09:44:25 2022
 
@@ -11,7 +12,7 @@ import streamlit as st
 import datetime
 from datetime import date, timedelta
 import pytz
-
+import calendar
 
 ##### Define special dates #####
 holiday = [
@@ -54,11 +55,12 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 bgcolor = 'green'
 fontcolor = 'white'
 html_temp = f"""
-		<div style="background-color:{bgcolor};padding:10px">
+		<div style="background-color:{bgcolor};padding:5px">
 		<h1 style="color:{fontcolor};text-align:center;"> 2023 香 港 請 假 計 算 器 </h1>
 		</div>
 		"""
-st.markdown(html_temp,unsafe_allow_html=True)
+column_a1, column_a2, column_a3, column_a4, column_a5, column_a6 = st.columns([2,0.1,0.9,1,1,1])
+column_a1.markdown(html_temp,unsafe_allow_html=True)
 st.markdown("")
 st.markdown("")
 st.markdown("")
@@ -68,7 +70,7 @@ header = f'<p style="font-family:sans-serif; color:#00FF00; font-size: 22px;">�
 st.markdown(header, unsafe_allow_html=True)
 
 
-column_b1, column_b2 = st.columns([1,1])
+column_b1, column_b2, column_b3, column_b4, column_b5, column_b6 = st.columns([1,1,1,1,1,1])
 
 start_date = column_b1.date_input(
     "開始日",
@@ -100,4 +102,25 @@ st.subheader(f'假期由 {start_date} 至 {end_date} ------ 總日數: {len(date
 if holiday_dates:
     st.subheader(f'包括{len(holiday_dates)}日公眾假期 / 星期六或日: \n{holiday_dates}')
 st.subheader(f'實際需請假日期為: {actual_dates_take_leave}日')
+st.markdown("")
+st.markdown("")
+st.markdown("")
 
+column_c1, column_c2, column_c3, column_c4, column_c5, column_c6 = st.columns([1,1.9,0.1,1,1,1])
+year = 2023
+month = column_c1.slider('日歷', 1,12,1)
+
+# Create a calendar for the year
+cal = calendar.month(year,month)
+
+# Display the calendar in Streamlit
+column_c1.write(f"Calendar for {year}-{month}")
+column_c1.markdown(f"```{cal}```")
+
+holiday_name = [ '一月一日翌日','農曆年初二','農曆年初三','農曆年初四','清明節','耶穌受難節','耶穌受難節翌日',
+                '復活節星期一','勞動節','佛誕','端午節','香港特別行政區成立紀念日','中秋節翌日','國慶日翌日','重陽節','聖誕節','聖誕節後第一個周日']
+from datetime import datetime
+holiday_dict = {v:datetime.strftime(d, '%d %b %Y') for v,d in zip(holiday_name,holiday)} #concat the two list and change the date in Eng format
+
+column_c2.write('2023 香港公眾假期')
+column_c2.write(holiday_dict)
