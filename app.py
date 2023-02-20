@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Apr 16 09:44:25 2022
-
-@author: wilso
-"""
-
 import streamlit as st
 
 ###### for calculation of annual leave #####
