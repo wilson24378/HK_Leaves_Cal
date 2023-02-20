@@ -87,6 +87,12 @@ holiday_dates = [d.strftime("%Y-%m-%d") for d in holiday_dates]
 holiday_dates = list(dict.fromkeys(holiday_dates)) # drop duplicate in 
 holiday_dates.sort()
 
+# exclude holiday dates from list
+dates = [start_date + timedelta(days=x) for x in range((end_date-start_date).days + 1)]
+leaves_date = [d.strftime('%Y-%m-%d') for d in dates if d.strftime('%Y-%m-%d') not in holiday_dates]
+leaves_date = list(dict.fromkeys(leaves_date)) # drop duplicate in 
+leaves_date.sort()
+
 actual_dates_take_leave = len(dates_in_period) - len(holiday_dates)
 
 
@@ -94,6 +100,9 @@ st.subheader(f'假期由 {start_date} 至 {end_date} ------ 總日數: {len(date
 if holiday_dates:
     st.subheader(f'包括{len(holiday_dates)}日公眾假期 / 星期六或日: \n{holiday_dates}')
 st.subheader(f'實際需請假日期為: {actual_dates_take_leave}日')
+
+st.write(leaves_date)
+
 st.markdown("")
 st.markdown("")
 st.markdown("")
